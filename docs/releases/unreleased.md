@@ -1,5 +1,9 @@
 # Unreleased
 
+## anomaly
+
+- Fixed `anomaly.PredictiveAnomalyDetection.score_one` mutating the model: it used to update the dynamic threshold statistics, so scoring a point changed the detector and repeated scoring of the same point returned different values. The threshold is now maintained by `learn_one` instead, leaving `score_one` side-effect free. Scores over the usual score-then-learn loop are unchanged.
+
 ## stream
 
 - `stream.Cache` now writes a pass to a temporary file and renames it into place once the stream is exhausted. An interrupted first pass (a `break`, an exception, an abandoned generator) used to leave a truncated file behind, which every later pass then read back as if it were the whole dataset.
